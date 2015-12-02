@@ -11,6 +11,10 @@ var stringifyJSON = function(obj) {
 		return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
 	};
 
+	var quotes = function(type) {
+		return "\"" + type + "\"";
+	};
+
 	var isType = getType(obj);
 
     var oldArr = [];
@@ -26,29 +30,28 @@ var stringifyJSON = function(obj) {
 		}
 	}
 
-	var oldObj = {};
+	var oldObj = [];
 	var key;
 	if (isType === "object") {
 		if (Object.keys(obj).length > 0) {
-			for(key in obj) {
-				key = key.toString();
-				oldObj[key] = stringifyJSON( obj[key] );
+			for (key in obj) {
+				oldObj.push(quotes(key) + ":" + stringifyJSON( obj[key] ) );
 			}
-			return oldObj;
+			return '{' + oldObj.join(',') + '}';
 		} else {
 			return '{}';
 		}
 	}
 
-	if (isType === "function") {
-
-	}
-
 	if (isType === "string") {
-		return "\"" + obj + "\"";
+		return quotes(obj);
 	}
 
 	if (isType === "number" || "boolean" || "null") {
 		return String(obj);
+	}
+
+	if (isType === "function" || "undefined") {
+
 	}
 };
