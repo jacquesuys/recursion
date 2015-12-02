@@ -13,29 +13,30 @@ var stringifyJSON = function(obj) {
 
 	var isType = getType(obj);
 
-	var isString = function (string) {
-		return string.replace(/['"]+/g, "");
-    };
-
-    var each = function(collection, iterator) {
-        if (getType(collection) === "array")
-            for (var index = 0; index < collection.length; index++)
-                iterator(collection[index], index, collection);
-        else if (getType(collection) === "object" && getType(collection) !== "null")
-            for (var key in collection)
-                iterator(collection[key], key, collection);
-    };
-
     var oldArr = [];
+    var i;
 	if (isType === "array") {
-		if(obj.length === 0) {
-			return '[]';
-		} else {
-			each(obj, function(value) {
-				oldArr.push(value);
-			});
-
+		if(obj.length > 0) {
+			for (i =0; i < obj.length; i++) {
+				oldArr[i] = stringifyJSON( obj[i] );
+			}
 			return '[' + oldArr.join(',') + ']';
+		} else {
+			return '[]';
+		}
+	}
+
+	var oldObj = {};
+	var key;
+	if (isType === "object") {
+		if (Object.keys(obj).length > 0) {
+			for(key in obj) {
+				key = key.toString();
+				oldObj[key] = stringifyJSON( obj[key] );
+			}
+			return oldObj;
+		} else {
+			return '{}';
 		}
 	}
 
@@ -44,12 +45,10 @@ var stringifyJSON = function(obj) {
 	}
 
 	if (isType === "string") {
-
-		return isString(obj);
+		return "\"" + obj + "\"";
 	}
 
 	if (isType === "number" || "boolean" || "null") {
-		// console.log(getType);
 		return String(obj);
 	}
 };
