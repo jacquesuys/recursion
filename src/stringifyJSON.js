@@ -30,7 +30,8 @@ var stringifyJSON = function(obj) {
 	var key;
 	if (isType === "Object") {
 		for (key in obj) {
-			if (getType(obj[key]) != "Function" || "Undefined") {
+			console.log(getType(obj[key]));
+			if (getType(obj[key]) !== "Undefined") {
 				newObj.push(quotes(key) + ":" + stringifyJSON( obj[key] ) );
 			}
 		}
@@ -43,9 +44,5 @@ var stringifyJSON = function(obj) {
 
 	if (isType === "Number" || "Boolean" || "Null") {
 		return String(obj);
-	}
-
-	if (isType === "Function" || "Undefined") {
-		return;
 	}
 };
