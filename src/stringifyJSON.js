@@ -8,7 +8,7 @@ var stringifyJSON = function(obj) {
 
 	// Reliable type checking: http://bit.ly/1l8NvS4
 	var getType = function(obj) {
-		return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
+		return Object.prototype.toString.call(obj).slice(8, -1);
 	};
 
 	var quotes = function(type) {
@@ -19,37 +19,33 @@ var stringifyJSON = function(obj) {
 
     var newArr = [];
     var i;
-	if (isType === "array") {
-		if(obj.length > 0) {
-			for (i =0; i < obj.length; i++) {
-				newArr[i] = stringifyJSON( obj[i] );
-			}
-			return '[' + newArr.join(',') + ']';
-		} else {
-			return '[]';
+	if (isType === "Array") {
+		for (i = 0; i < obj.length; i++) {
+			newArr[i] = stringifyJSON( obj[i] );
 		}
+		return '[' + newArr.join(',') + ']';
 	}
 
 	var newObj = [];
 	var key;
-	if (isType === "object") {
-		if (Object.keys(obj).length > 0) {
-			for (key in obj) {
-				if (getType(obj[key]) !== "function" || "undefined") {
-					newObj.push(quotes(key) + ":" + stringifyJSON( obj[key] ) );
-				}	
+	if (isType === "Object") {
+		for (key in obj) {
+			if (getType(obj[key]) != "Function" || "Undefined") {
+				newObj.push(quotes(key) + ":" + stringifyJSON( obj[key] ) );
 			}
-			return '{' + newObj.join(',') + '}';
-		} else {
-			return '{}';
 		}
+		return '{' + newObj.join(',') + '}';
 	}
 
-	if (isType === "string") {
+	if (isType === "String") {
 		return quotes(obj);
 	}
 
-	if (isType === "number" || "boolean" || "null") {
+	if (isType === "Number" || "Boolean" || "Null") {
 		return String(obj);
+	}
+
+	if (isType === "Function" || "Undefined") {
+		return;
 	}
 };
