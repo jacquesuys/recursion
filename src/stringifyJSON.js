@@ -28,12 +28,16 @@ var stringifyJSON = function(obj) {
 
 	var newObj = [];
 	var key;
+	var valueType;
 	if (isType === "Object") {
 		for (key in obj) {
-			console.log(getType(obj[key]));
-			if (getType(obj[key]) !== "Undefined") {
-				newObj.push(quotes(key) + ":" + stringifyJSON( obj[key] ) );
+			valueType = getType(obj[key]);
+			if (valueType !== "Undefined") {
+				if (valueType !== "Function") {
+					newObj.push(quotes(key) + ":" + stringifyJSON( obj[key] ) );
+				}
 			}
+			
 		}
 		return '{' + newObj.join(',') + '}';
 	}
