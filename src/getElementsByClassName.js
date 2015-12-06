@@ -9,11 +9,13 @@ var getElementsByClassName = function(className) {
 	var classes = [];
 	var regex = new RegExp(className);
 
+    // Douglas Crockford's DOM walker
+    // Source: http://bit.ly/1HP6bQR
 	var walkDOM = function (node, func) {
         func(node);
 
         node = node.firstChild;
-        while(node) {
+        while(node) {  
             walkDOM(node,func);
             node = node.nextSibling;
         }
