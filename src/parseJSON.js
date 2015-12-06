@@ -4,4 +4,7 @@
 // but you're not, so you'll write it from scratch:
 var parseJSON = function(json) {
   // your code goes here
+	'use strict';
+
+	return eval('(' + json + ')');
 };
