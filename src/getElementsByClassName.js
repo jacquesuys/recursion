@@ -7,9 +7,9 @@
 var getElementsByClassName = function(className) {
 	// your code here
 	var classes = [];
-	var regex = new RegExp(' ' + className + ' ');
+	var regex = new RegExp(className);
 
-	var walkDOM = function (node,func) {
+	var walkDOM = function (node, func) {
         func(node);
 
         node = node.firstChild;
@@ -20,7 +20,7 @@ var getElementsByClassName = function(className) {
     };
 
     walkDOM(document.body, function(node) {
-    	if (regex.test(' ' + node.className + ' ')) {
+    	if (regex.test(node.className)) {
     		classes.push(node);
     	}
     });
